@@ -1,6 +1,5 @@
-package com.apps.restaurantsapp2.rickandmorty
+package com.apps.restaurantsapp2.rickandmorty.api
 
-import com.apps.restaurantsapp2.rickandmorty.datamodel.CharacterList
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.http.GET

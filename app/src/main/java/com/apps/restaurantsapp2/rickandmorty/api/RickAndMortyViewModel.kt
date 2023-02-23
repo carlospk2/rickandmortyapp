@@ -1,9 +1,7 @@
-package com.apps.restaurantsapp2.rickandmorty
+package com.apps.restaurantsapp2.rickandmorty.api
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.apps.restaurantsapp2.rickandmorty.datamodel.Character
-import com.apps.restaurantsapp2.rickandmorty.datamodel.CharacterList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,7 +59,6 @@ class RickAndMortyViewModel: ViewModel() {
                 ) {
                     response.body()?.let { characterList ->
                         state.value = characterList.results
-                        //currentPage.value = characterList.info.currentPage
                         currentPage.value = if (page in 1..maxPages.value) page else 1
                         maxPages.value = characterList.info.pages
                     }

@@ -1,4 +1,4 @@
-package com.apps.restaurantsapp2.rickandmorty.datamodel
+package com.apps.restaurantsapp2.rickandmorty.api
 
 import com.google.gson.annotations.SerializedName
 

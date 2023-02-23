@@ -1,24 +1,21 @@
 package com.apps.restaurantsapp2
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.apps.restaurantsapp2.rickandmorty.RickAndMortyViewModel
-import com.apps.restaurantsapp2.rickandmorty.datamodel.CharacterList
+import com.apps.restaurantsapp2.rickandmorty.api.RickAndMortyViewModel
+import com.apps.restaurantsapp2.ui.theme.Background
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -32,7 +29,7 @@ fun RestaurantsScreen(viewModel: RickAndMortyViewModel = viewModel()) {
             // set number of items in a row
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(10.dp),
-            modifier = Modifier.fillMaxHeight(0.95f)
+            modifier = Modifier.fillMaxHeight(0.95f).background(Background)
         ) {
             items(viewModel.state.value.size) { index ->
                 val character = viewModel.state.value[index]
@@ -41,24 +38,30 @@ fun RestaurantsScreen(viewModel: RickAndMortyViewModel = viewModel()) {
                 }
             }
         }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            Modifier.fillMaxWidth().fillMaxHeight(0.95f).background(Background),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             IconButton(onClick = {
                 viewModel.loadPreviousPage()
             }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Previous page"
+                    contentDescription = "Previous page",
+                    tint = Color.White
                 )
             }
             Spacer(modifier = Modifier.width(10.dp))
-            Text(text = "Página ${currentPage.value} de ${maxPages.value}")
+            Text(text = "Página ${currentPage.value} de ${maxPages.value}", color = Color.White)
             Spacer(modifier = Modifier.width(10.dp))
             IconButton(onClick = {
                 viewModel.loadNextPage()
             }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowForward,
-                    contentDescription = "Next page"
+                    contentDescription = "Next page",
+                    tint = Color.White
                 )
             }
         }
