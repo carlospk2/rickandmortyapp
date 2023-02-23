@@ -16,17 +16,43 @@ class RickAndMortyViewModel: ViewModel() {
     private lateinit var charactersCall: Call<CharacterList>
     val state = mutableStateOf(emptyList<Character>())
 
+    //Pagination
+    var currentPage = mutableStateOf(1)
+    var maxPages = mutableStateOf(1)
+
     init {
         val retrofit: Retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://rickandmortyapi.com/api/")
             .build()
         apiInterface = retrofit.create(RickAndMortyApiService::class.java)
-        getCharacters()
+        getCharacters(currentPage.value)
     }
 
-    private fun getCharacters() {
-        charactersCall = apiInterface.getCharacters()
+    fun loadPreviousPage() {
+        getPreviousPage()?.let {
+            getCharacters(it)
+        }
+    }
+
+    fun loadNextPage() {
+        getNextPage()?.let {
+            getCharacters(it)
+        }
+    }
+
+    private fun getPreviousPage(): Int? {
+        val previousPage = currentPage.value - 1
+        return if (previousPage in 1..maxPages.value) previousPage else null
+    }
+
+    private fun getNextPage(): Int? {
+        val nextPage = currentPage.value + 1
+        return if (nextPage in 1..maxPages.value) nextPage else null
+    }
+
+    fun getCharacters(page: Int) {
+        charactersCall = apiInterface.getCharacters(page)
         charactersCall.enqueue(
             object : Callback<CharacterList> {
                 override fun onResponse(
@@ -35,6 +61,9 @@ class RickAndMortyViewModel: ViewModel() {
                 ) {
                     response.body()?.let { characterList ->
                         state.value = characterList.results
+                        //currentPage.value = characterList.info.currentPage
+                        currentPage.value = if (page in 1..maxPages.value) page else 1
+                        maxPages.value = characterList.info.pages
                     }
                 }
 

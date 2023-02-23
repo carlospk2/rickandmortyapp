@@ -11,5 +11,6 @@ data class PageInfo(
     @SerializedName("count") val count: Int,
     @SerializedName("pages") val pages: Int,
     @SerializedName("next") val next: String?,
-    @SerializedName("prev") val prev: String?
+    @SerializedName("prev") val prev: String?,
+    val currentPage: Int,
 )
